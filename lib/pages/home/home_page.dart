@@ -11,14 +11,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,23 +18,14 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Theme.of(context).colorScheme.primary,
           title: Text(widget.title),
         ),
-        body: ListView(
-          padding: const EdgeInsets.only(
-              top: 16.0, left: 16.0, right: 16.0, bottom: 24.0),
-          children: const [
-            Padding(
-              padding: EdgeInsets.only(top: 16.0),
-              child: MyCardComponent(),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 16.0),
-              child: MyCardComponent(),
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 16.0),
-              child: MyCardComponent(),
-            ),
-          ],
-        ));
+        body: ListView.builder(
+            padding: const EdgeInsets.only(
+                top: 16.0, left: 16.0, right: 16.0, bottom: 24.0),
+            itemBuilder: (context, index) {
+              return const Padding(
+                padding: EdgeInsets.only(top: 16.0),
+                child: MyCardComponent(),
+              );
+            }));
   }
 }

@@ -10,12 +10,6 @@ class MyCardComponent extends StatefulWidget {
 class _MyCardState extends State<MyCardComponent> {
   bool loading = true;
 
-  _setLoaded() {
-    setState(() {
-      loading = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Card(
