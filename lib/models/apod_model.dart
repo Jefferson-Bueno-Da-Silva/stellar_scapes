@@ -1,21 +1,21 @@
 class ApodModel {
   String? copyright;
   String? date;
-  String? explanation;
-  String? hdurl;
+  late String explanation;
+  late String hdurl;
   String? mediaType;
   String? serviceVersion;
-  String? title;
+  late String title;
   String? url;
 
   ApodModel(
       {this.copyright,
       this.date,
-      this.explanation,
-      this.hdurl,
+      required this.explanation,
+      required this.hdurl,
       this.mediaType,
       this.serviceVersion,
-      this.title,
+      required this.title,
       this.url});
 
   ApodModel.fromJson(Map<String, dynamic> json) {
@@ -30,7 +30,7 @@ class ApodModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
     data['copyright'] = this.copyright;
     data['date'] = this.date;
     data['explanation'] = this.explanation;
