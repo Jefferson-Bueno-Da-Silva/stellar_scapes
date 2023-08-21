@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:stellar_scapes/models/apod_model.dart';
 
 class MyCardComponent extends StatefulWidget {
-  const MyCardComponent({super.key});
+  final ApodModel apod;
+
+  const MyCardComponent({super.key, required this.apod}) : super();
 
   @override
   State<MyCardComponent> createState() => _MyCardState();
@@ -13,27 +16,23 @@ class _MyCardState extends State<MyCardComponent> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
       color: Theme.of(context).primaryColor,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: 315,
-        child: const Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ImageComponent(),
-              ContainerText(),
-            ],
-          ),
-        ),
+      child: Column(
+        children: [
+          ImageComponent(uri: widget.apod.hdurl),
+          ContainerText(
+              title: widget.apod.title, description: widget.apod.explanation)
+        ],
       ),
     );
   }
 }
 
 class ImageComponent extends StatelessWidget {
-  const ImageComponent({super.key});
+  final String uri;
+
+  const ImageComponent({super.key, required this.uri});
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +44,9 @@ class ImageComponent extends StatelessWidget {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.network(
-            'https://apod.nasa.gov/apod/image/1801/cartwheel_hst.jpg',
+            uri,
             fit: BoxFit.cover,
-            semanticLabel: 'A galaxy image',
+            semanticLabel: '',
             loadingBuilder: (context, child, progress) {
               return progress == null
                   ? child
@@ -63,34 +62,30 @@ class ImageComponent extends StatelessWidget {
 }
 
 class ContainerText extends StatelessWidget {
-  const ContainerText({super.key});
+  final String title;
+  final String description;
+
+  const ContainerText(
+      {super.key, required this.title, required this.description});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8.0),
-              child: Text(
-                'Cartwheel of Fortune',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            Expanded(
-                child: Text(
-              "By chance, a collision of two galaxies has created a surprisingly recognizable shape on a cosmic scale, The Cartwheel Galaxy. The Cartwheel is part of a group of galaxies about 500 million light years away in the constellation Sculptor. Two smaller galaxies in the group are visible on the left. The Cartwheel Galaxy's rim is an immense ring-like structure 150,000 light years in diameter composed of newly formed, extremely bright, massive stars. When galaxies collide they pass through each other, their individual stars rarely coming into contact. Still, the galaxies' gravitational fields are seriously distorted by the collision. In fact, the ring-like shape is the result of the gravitational disruption caused by a small intruder galaxy passing through a large one, compressing the interstellar gas and dust and causing a a star formation wave to move out from the impact point like a ripple across the surface of a pond. In this case the large galaxy may have originally been a spiral, not unlike our own Milky Way, transformed into the wheel shape by the collision. But ... what happened to the small intruder galaxy?",
-              style: Theme.of(context).textTheme.bodyMedium,
-              maxLines: 5,
-              overflow: TextOverflow.ellipsis,
-            )),
-          ],
+    return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+      Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Text(
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
+          textAlign: TextAlign.center,
         ),
       ),
-    );
+      Padding(
+        padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
+        child: Text(
+          description,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+      )
+    ]);
   }
 }
