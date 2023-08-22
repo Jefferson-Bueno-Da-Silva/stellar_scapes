@@ -20,6 +20,15 @@ class HomeController {
       state.value = HomeState.error;
     }
   }
+
+  Future pagination() async {
+    try {
+      final appendApods = await _repository.fetchApods();
+      apods.addAll(appendApods);
+    } catch (e) {
+      state.value = HomeState.error;
+    }
+  }
 }
 
 enum HomeState { loading, success, error }

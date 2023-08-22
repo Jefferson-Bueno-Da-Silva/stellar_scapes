@@ -20,9 +20,9 @@ main() {
               hdurl: 'http://example.com.br')
         ]);
 
-    expect(controller.state, HomeState.loading);
+    expect(controller.state.value, HomeState.loading);
     await controller.start();
-    expect(controller.state, HomeState.success);
+    expect(controller.state.value, HomeState.success);
     expect(controller.apods.isNotEmpty, true);
   });
 
@@ -30,8 +30,23 @@ main() {
     final controller = HomeController(repository);
     when(repository.fetchApods()).thenThrow(Exception('internet error'));
 
-    expect(controller.state, HomeState.loading);
+    expect(controller.state.value, HomeState.loading);
     await controller.start();
-    expect(controller.state, HomeState.error);
+    expect(controller.state.value, HomeState.error);
+  });
+
+  test('should append more 1 item to apods', () async {
+    final controller = HomeController(repository);
+    when(repository.fetchApods()).thenAnswer((_) async => [
+          ApodModel(
+              title: 'test apod',
+              explanation: 'test apod explanation',
+              hdurl: 'http://example.com.br')
+        ]);
+
+    await controller.start();
+    expect(controller.apods.length, 1);
+    await controller.pagination();
+    expect(controller.apods.length, 2);
   });
 }

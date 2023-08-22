@@ -12,7 +12,8 @@ import 'apod_repository_test.mocks.dart';
 main() {
   MockDio mockDio = MockDio();
   late ApodRepository apodRepository;
-  const url = 'https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=10';
+  const url =
+      'https://api.nasa.gov/planetary/apod?api_key=NSTsqgDnkbXEbiF2CB4OryneJJ5UFQ5zxG6hMB5L&count=10';
 
   setUp(() {
     apodRepository = ApodRepository(mockDio);
